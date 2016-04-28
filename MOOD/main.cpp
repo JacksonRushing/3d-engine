@@ -6,11 +6,15 @@
 #include "Mesh.h"
 #include "Texture.h"
 #include "Transform.h"
+#include "camera.h"
+
+#define WIDTH 800
+#define HEIGHT 600
 #undef main;
 int main()
 {
 	SDL_Init(SDL_INIT_EVERYTHING);
-	Display display(800, 600, "Hello World!");
+	Display display(WIDTH, HEIGHT, "3D-Engine!");
 	
 	
 
@@ -25,8 +29,10 @@ int main()
 	Texture texture("./res/texture.jpg");
 
 	Transform transform;
+					//position, FOV in degrees, 
+	camera camera(glm::vec3(0, 0, -1.5), 70.0f, (float)WIDTH / (float)HEIGHT, 0.01f, 1000.0f);
 	
-	float counter = 0.0f;
+	float counter = 0.01f;
 
 	while (!display.getshouldClose())
 	{
@@ -37,14 +43,15 @@ int main()
 		float tancounter = tanf(counter);
 
 		transform.getPos()->x = sincounter;
-		transform.getPos()->y = coscounter;
-		transform.getRot()->z = (counter * 10);
-		transform.setScale(glm::vec3(sincounter, coscounter, tancounter));
+		transform.getPos()->z = coscounter;
+		transform.getRot()->x = (counter * 5);
+		transform.getRot()->z = (counter * 5);
+		//transform.setScale(glm::vec3(sincounter, coscounter, tancounter));
 
 
 		shader.bind();
 		texture.bind(0);
-		shader.update(transform);
+		shader.update(transform, camera);
 		mesh.Draw();
 
 		display.update();
