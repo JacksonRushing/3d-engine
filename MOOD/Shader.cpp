@@ -47,10 +47,10 @@ void Shader::bind()
 	glUseProgram(program);
 }
 
-void Shader::update(const Transform& _transform, const camera& _camera)
+void Shader::update(const Transform& _transform)
 {
 
-	glm::mat4 model = _camera.getViewProjection() * _transform.getModel();
+	glm::mat4 model = _transform.getModel();
 	//fv = floating point value
 
 	glUniformMatrix4fv(uniforms[TRANFORM_U], 1, GL_FALSE, &model[0][0]);

@@ -2,14 +2,13 @@
 #include <string>
 #include <glew/GL/glew.h>
 #include "Transform.h"
-#include "camera.h"
 class Shader
 {
 public:
 	Shader(const std::string& filename);
 	//set the GPU in a state so that it's using our vertex shader and fragment shader
 	void bind();
-	void update(const Transform& _transform, const camera& _camera);
+	void update(const Transform& _transform);
 
 	virtual ~Shader();
 	
