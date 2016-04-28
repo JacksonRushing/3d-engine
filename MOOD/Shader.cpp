@@ -9,8 +9,8 @@ static GLuint createShader(const std::string& code, GLenum shaderType);
 Shader::Shader(const std::string& filename)
 {
 	program = glCreateProgram();
-	shaders[vertexShader] = createShader(loadShader(filename + ".vs"), GL_VERTEX_SHADER);
-	shaders[fragmentShader] = createShader(loadShader(filename + ".fs"), GL_FRAGMENT_SHADER);
+	shaders[vertexShader] = createShader(loadShader(filename + ".vert"), GL_VERTEX_SHADER);
+	shaders[fragmentShader] = createShader(loadShader(filename + ".frag"), GL_FRAGMENT_SHADER);
 
 	for (unsigned int i = 0; i < NUM_SHADERS; i++)
 	{
@@ -25,6 +25,8 @@ Shader::Shader(const std::string& filename)
 
 	glValidateProgram(program);
 	checkShaderError(program, GL_VALIDATE_STATUS, true, "Error: Program is invalid: ");
+
+	uniforms[TRANFORM_U] = glGetUniformLocation(program, "transform");
 
 }
 
@@ -43,6 +45,15 @@ Shader::~Shader()
 void Shader::bind()
 {
 	glUseProgram(program);
+}
+
+void Shader::update(const Transform& _transform)
+{
+
+	glm::mat4 model = _transform.getModel();
+	//fv = floating point value
+
+	glUniformMatrix4fv(uniforms[TRANFORM_U], 1, GL_FALSE, &model[0][0]);
 }
 
 static GLuint createShader(const std::string& code, GLenum shaderType)

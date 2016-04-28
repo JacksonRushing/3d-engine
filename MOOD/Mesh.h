@@ -15,7 +15,7 @@ public:
 	}
 	inline glm::vec3* getPos() { return &pos; }
 	inline glm::vec2* gettexCoord() { return &texCoord; }
-	inline void fliptexCoordY() { texCoord.y = 1.0 - texCoord.y; }
+	inline void fliptexCoordY() { texCoord.y = 1 - texCoord.y; }
 protected:
 private:
 	glm::vec3 pos;

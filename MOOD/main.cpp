@@ -5,6 +5,7 @@
 #include "Shader.h"
 #include "Mesh.h"
 #include "Texture.h"
+#include "Transform.h"
 #undef main;
 int main()
 {
@@ -22,17 +23,32 @@ int main()
 	Shader shader("./res/basicShader");
 
 	Texture texture("./res/texture.jpg");
-	texture.bind(0);
+
+	Transform transform;
+	
+	float counter = 0.0f;
 
 	while (!display.getshouldClose())
 	{
 		display.clear(0.0f, 0.15f, 0.3f, 1.0f);
 
-		shader.bind();
+		float sincounter = sinf(counter);
+		float coscounter = cosf(counter);
+		float tancounter = tanf(counter);
 
+		transform.getPos()->x = sincounter;
+		transform.getPos()->y = coscounter;
+		transform.getRot()->z = (counter * 10);
+		transform.setScale(glm::vec3(sincounter, coscounter, tancounter));
+
+
+		shader.bind();
+		texture.bind(0);
+		shader.update(transform);
 		mesh.Draw();
 
 		display.update();
+		counter += 0.0001f;
 	}
 
 	SDL_Quit();
