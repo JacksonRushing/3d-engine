@@ -6,12 +6,15 @@
 #include "Mesh.h"
 #include "Texture.h"
 #include "Transform.h"
+#include "camera.h"
 #undef main;
+#define WIDTH 1920
+#define HEIGHT 1080
 int main()
 {
 	SDL_Init(SDL_INIT_EVERYTHING);
-	Display display(1600, 900, "Hello World!");
-	
+	Display display(WIDTH, HEIGHT, "3D-Engine!");
+	SDL_SetWindowFullscreen(display.getWindow(), SDL_WINDOW_FULLSCREEN_DESKTOP);
 	
 
 	Vertex vertices[] = 
@@ -24,9 +27,13 @@ int main()
 	
 	Mesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]), indices, sizeof(indices)/sizeof(indices[0]));
 
+	Mesh monkey("./res/monkey3.obj");
+
 	Shader shader("./res/basicShader");
 
-	Texture texture("./res/texture.jpg");
+	Texture texture("./res/texture2.jpg");
+
+	Camera camera(glm::vec3(0, 0, -4), 70.0f, (float)WIDTH / (float)HEIGHT, 0.01f, 1000.0f);
 
 	Transform transform;
 	
@@ -41,15 +48,17 @@ int main()
 		float tancounter = tanf(counter);
 
 		transform.getPos()->x = sincounter;
-		transform.getPos()->y = coscounter;
-		transform.getRot()->z = (counter * 10);
-		transform.setScale(glm::vec3(sincounter, coscounter, tancounter));
+		transform.getPos()->z = sincounter;
+		transform.getRot()->x = (counter *2);
+		transform.getRot()->y = (counter * 3);
+		transform.getRot()->z = (counter * 1);
+		//transform.setScale(glm::vec3(sincounter, coscounter, 1));
 
 
 		shader.bind();
 		texture.bind(0);
-		shader.update(transform);
-		mesh.Draw();
+		shader.update(transform, camera);
+		monkey.Draw();
 
 		display.update();
 		counter += 0.0001f;

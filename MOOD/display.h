@@ -10,6 +10,7 @@ public:
 	void update();
 	bool getshouldClose() const;
 	void clear(float r, float g, float b, float a);
+	SDL_Window* getWindow() const { return m_window; }
 
 private:
 	Display(const Display& other);
