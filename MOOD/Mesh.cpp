@@ -1,9 +1,9 @@
 #include "Mesh.h"
 #include <vector>
-Mesh::Mesh(Vertex* vertices, unsigned int numVertices)
+Mesh::Mesh(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices)
 {
-	drawCount = numVertices;
-
+	//drawCount = numVertices;
+	drawCount = numIndices;
 	glGenVertexArrays(1, &vertexArrayObject);
 	glBindVertexArray(vertexArrayObject);
 
@@ -46,6 +46,10 @@ Mesh::Mesh(Vertex* vertices, unsigned int numVertices)
 	//index, # of pieces of data, the type of data, stride, starting point
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
+	//references the data of another array
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vertexArrayBuffers[INDEX_VB]);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, numIndices * sizeof(indices[0]), &indices[0], GL_STATIC_DRAW);
+
 	//after done with vertex array operations, set it to zero
 	glBindVertexArray(0);
 }
@@ -59,7 +63,7 @@ void Mesh::Draw()
 {
 	glBindVertexArray(vertexArrayObject);
 	//mode, (triangles, lines, point, etc) where to start, count (how far do you want to read?
-	glDrawArrays(GL_TRIANGLES, 0, drawCount);
-
+	//glDrawArrays(GL_TRIANGLES, 0, drawCount);
+	glDrawElements(GL_TRIANGLES, drawCount, GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 }

@@ -25,7 +25,7 @@ private:
 class Mesh
 {
 public:
-	Mesh(Vertex* vertices, unsigned int numVertices);
+	Mesh(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices);
 
 	void Draw();
 
@@ -40,6 +40,8 @@ private:
 		POSITION_VB,
 
 		TEXCOORD_VB,
+
+		INDEX_VB,
 
 		NUM_BUFFERS
 	};

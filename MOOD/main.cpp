@@ -10,15 +10,19 @@
 int main()
 {
 	SDL_Init(SDL_INIT_EVERYTHING);
-	Display display(800, 600, "Hello World!");
+	Display display(1600, 900, "Hello World!");
 	
 	
 
-	Vertex vertices[] = {	Vertex(glm::vec3(-0.5, -0.5, 0), glm::vec2(0, 0.0)),
-							Vertex(glm::vec3(0,		0.5, 0), glm::vec2(0.5, 1.0)),
-							Vertex(glm::vec3(0.5,  -0.5, 0), glm::vec2(1.0, 0.0)) };
+	Vertex vertices[] = 
+	{					Vertex(glm::vec3(-0.5, -0.5, 0), glm::vec2(0, 0.0)),
+						Vertex(glm::vec3(0,		0.5, 0), glm::vec2(0.5, 1.0)),
+						Vertex(glm::vec3(0.5,  -0.5, 0), glm::vec2(1.0, 0.0)) 
+	};
+
+	unsigned int indices[] = {0, 1, 2};
 	
-	Mesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]));
+	Mesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]), indices, sizeof(indices)/sizeof(indices[0]));
 
 	Shader shader("./res/basicShader");
 
