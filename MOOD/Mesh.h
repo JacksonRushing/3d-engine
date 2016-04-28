@@ -7,13 +7,19 @@
 class Vertex
 {
 public:
-	Vertex(const glm::vec3& _pos)
+	Vertex(const glm::vec3& _pos, const glm::vec2& _texCoord)
 	{
 		this->pos = _pos;
+		this->texCoord = _texCoord;
+		fliptexCoordY();
 	}
+	inline glm::vec3* getPos() { return &pos; }
+	inline glm::vec2* gettexCoord() { return &texCoord; }
+	inline void fliptexCoordY() { texCoord.y = 1.0 - texCoord.y; }
 protected:
 private:
 	glm::vec3 pos;
+	glm::vec2 texCoord;
 };
 
 class Mesh
@@ -32,6 +38,8 @@ private:
 	enum
 	{
 		POSITION_VB,
+
+		TEXCOORD_VB,
 
 		NUM_BUFFERS
 	};
