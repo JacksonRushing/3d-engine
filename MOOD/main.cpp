@@ -8,13 +8,15 @@
 #include "Transform.h"
 #include "camera.h"
 #undef main;
-#define WIDTH 1920
-#define HEIGHT 1080
+#define WIDTH 1366
+#define HEIGHT 768
 int main()
 {
+	SDL_Event e;
 	SDL_Init(SDL_INIT_EVERYTHING);
-	Display display(WIDTH, HEIGHT, "3D-Engine!");
-	SDL_SetWindowFullscreen(display.getWindow(), SDL_WINDOW_FULLSCREEN_DESKTOP);
+	//Display::Display(int width, int height, const std::string& title, glm::vec3 _pos, float _fov, float _zNear, float _zFar)
+	Display display(WIDTH, HEIGHT, "3D-Engine!", glm::vec3(0, 0, -4), 70.0f, 0.01f, 1000.0f);
+	
 	
 
 	Vertex vertices[] = 
@@ -33,7 +35,7 @@ int main()
 
 	Texture texture("./res/texture2.jpg");
 
-	Camera camera(glm::vec3(0, 0, -4), 70.0f, (float)WIDTH / (float)HEIGHT, 0.01f, 1000.0f);
+	
 
 	Transform transform;
 	
@@ -57,7 +59,7 @@ int main()
 
 		shader.bind();
 		texture.bind(0);
-		shader.update(transform, camera);
+		shader.update(transform, *display.getCamera());
 		monkey.Draw();
 
 		display.update();
