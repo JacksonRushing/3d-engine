@@ -30,6 +30,7 @@ private:
 class Mesh
 {
 public:
+	Mesh(const Mesh& other) {};
 	Mesh(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices);
 	Mesh(const std::string& filename);
 
@@ -39,7 +40,7 @@ public:
 
 private:
 	void initMesh(const IndexedModel& model);
-	Mesh(const Mesh& other) {};
+	
 	void operator=(const Mesh& other) {}
 
 	enum
